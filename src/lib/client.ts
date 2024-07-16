@@ -1448,6 +1448,7 @@ export default class MqttClient extends TypedEventEmitter<MqttClientEventCallbac
 				this.outgoingStore.close((e2) => {
 					this.log('end :: closeStores: emitting end')
 					this.emit('end')
+					this.disconnecting = false
 					if (cb) {
 						const err = e1 || e2
 						this.log(
@@ -1485,6 +1486,7 @@ export default class MqttClient extends TypedEventEmitter<MqttClientEventCallbac
 		}
 
 		if (this.disconnecting) {
+			this.disconnecting = false
 			cb()
 			return this
 		}
